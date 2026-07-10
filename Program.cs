@@ -1,11 +1,17 @@
+using GrandHotel.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpContextAccessor(); 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(options => {
-    options.IdleTimeout = TimeSpan.FromMinutes(20); 
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
 });
+
+builder.Services.AddDbContext<HotelDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +35,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Index}/{id?}")
     .WithStaticAssets();
-
 
 app.Run();
