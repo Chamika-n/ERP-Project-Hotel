@@ -1,0 +1,9 @@
+{
+  "name": "grand-hotel-room-management-backend",
+  "version": "1.0.0",
+  "description": "Simple Node.js backend for the Grand Hotel room management frontend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
