@@ -12,5 +12,6 @@ namespace GrandHotel.Data
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Inventory> Inventory { get; set; }
+        public DbSet<Room> Rooms { get; set; }
     }
 }

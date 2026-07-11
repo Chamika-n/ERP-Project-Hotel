@@ -1,0 +1,78 @@
+@model GrandHotel.Models.Room
+
+@{
+    ViewData["Title"] = "Add New Room";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+}
+
+<div class="main-area">
+    <header class="topbar">
+        <div class="page-heading">
+            <h1>Add New Room</h1>
+            <p>Register a new room into the Grand Hotel ERP system.</p>
+        </div>
+    </header>
+
+    <main class="content">
+        <div class="management-card p-4">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="RoomNumber" class="form-label">Room Number</label>
+                        <input asp-for="RoomNumber" class="form-control" placeholder="Example: 201" required />
+                        <span asp-validation-for="RoomNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="RoomType" class="form-label">Room Type</label>
+                        <select asp-for="RoomType" class="form-select" required>
+                            <option value="">Select room type</option>
+                            <option value="Standard">Standard</option>
+                            <option value="Deluxe">Deluxe</option>
+                            <option value="Suite">Suite</option>
+                            <option value="Family">Family</option>
+                        </select>
+                        <span asp-validation-for="RoomType" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Price" class="form-label">Rate per Night (LKR)</label>
+                        <input asp-for="Price" type="number" class="form-control" placeholder="18500" required />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Status" class="form-label">Availability Status</label>
+                        <select asp-for="Status" class="form-select" required>
+                            <option value="Available">Available</option>
+                            <option value="Occupied">Occupied</option>
+                            <option value="Reserved">Reserved</option>
+                            <option value="Cleaning">Cleaning</option>
+                            <option value="Maintenance">Maintenance</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-gold">
+                        <i class="bi bi-check2-circle"></i> Save Room
+                    </button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

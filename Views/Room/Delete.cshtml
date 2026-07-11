@@ -1,0 +1,63 @@
+@model GrandHotel.Models.Room
+
+@{
+    ViewData["Title"] = "Delete Room";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+}
+
+<div class="main-area">
+    <header class="topbar">
+        <div class="page-heading">
+            <h1 class="text-danger">Remove Room</h1>
+            <p>Are you sure you want to permanently delete this room from the ERP system?</p>
+        </div>
+    </header>
+
+    <main class="content">
+        <div class="management-card p-4 border border-danger">
+            <div class="alert alert-warning">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <strong>Warning:</strong> This action cannot be undone. Please confirm the room details below before deleting.
+            </div>
+
+            <div class="selected-room-panel mb-4 bg-light">
+                <div class="room-number-icon text-danger">
+                    <i class="bi bi-trash-fill"></i>
+                </div>
+                <div>
+                    <span>Room to be Removed</span>
+                    <strong>Room @Model.RoomNumber</strong>
+                </div>
+            </div>
+
+            <table class="table custom-table">
+                <tbody>
+                    <tr>
+                        <th style="width: 30%;">Room Type:</th>
+                        <td>@Model.RoomType</td>
+                    </tr>
+                    <tr>
+                        <th>Rate per Night:</th>
+                        <td>@Model.Price.ToString("C", new System.Globalization.CultureInfo("si-LK"))</td>
+                    </tr>
+                    <tr>
+                        <th>Status:</th>
+                        <td>@Model.Status</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <form asp-action="Delete" method="post" class="mt-4">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Confirm Delete
+                </button>
+                <a asp-action="Index" class="btn btn-light">Cancel</a>
+            </form>
+        </div>
+    </main>
+</div>

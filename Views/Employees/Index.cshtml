@@ -1,89 +1,115 @@
 @model IEnumerable<GrandHotel.Models.Employee>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Staff Directory";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-<form asp-action="Index" method="get" class="d-flex mb-3">
-    <input type="text" name="searchString" class="form-control me-2" placeholder="Search by name, department, or position..." />
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NIC)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Position)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Department)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JoinDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.NIC)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Position)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Department)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Salary)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.JoinDate)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EmployeeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EmployeeId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EmployeeId">Delete</a>
-            </td>
-        </tr>
+@section Styles {
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 }
-    </tbody>
-</table>
+
+<div class="main-area">
+    <header class="topbar">
+        <div class="page-heading">
+            <h1>Staff Directory</h1>
+            <p>Manage hotel staff members, job roles, and active contract statuses.</p>
+        </div>
+    </header>
+
+    <main class="content">
+        <!-- Welcome/Summary Section -->
+        <section class="welcome-banner">
+            <div>
+                <span class="eyebrow">HUMAN RESOURCES</span>
+                <h2>Workforce Overview</h2>
+                <p>Track team attendance, update basic salary scales, and maintain core employee profiles.</p>
+            </div>
+            <div class="banner-actions">
+                <a asp-action="Create" class="btn btn-gold">
+                    <i class="bi bi-person-plus-fill"></i> Register New Staff
+                </a>
+            </div>
+        </section>
+
+        <!-- Stats Counter Panel -->
+        <section class="stats-grid mb-4" aria-label="Staff statistics">
+            <div class="stat-card">
+                <div class="stat-icon total"><i class="bi bi-people-fill"></i></div>
+                <div>
+                    <span>Total Team</span>
+                    <strong>@Model.Count()</strong>
+                    <small>Active & inactive staff</small>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon available"><i class="bi bi-shield-check"></i></div>
+                <div>
+                    <span>Active Employees</span>
+                    <strong>@Model.Count(e => e.Status == "Active")</strong>
+                    <small>Currently on duty</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Directory Card -->
+        <section class="management-card">
+            <div class="management-header">
+                <div>
+                    <h3>Active Registry</h3>
+                    <p>Comprehensive list of hotel personnel across departments.</p>
+                </div>
+            </div>
+
+            <div class="table-responsive room-table-wrap">
+                <table class="table room-table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>NIC / Contact</th>
+                            <th>Position & Dept</th>
+                            <th>Salary</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@item.FullName</strong><br />
+                                    <small class="text-muted">@item.Email</small>
+                                </td>
+                                <td>
+                                    <span>@item.NIC</span><br />
+                                    <small class="text-muted"><i class="bi bi-telephone"></i> @item.Phone</small>
+                                </td>
+                                <td>
+                                    <span class="badge bg-light text-dark">@item.Position</span><br />
+                                    <small class="text-muted">@item.Department</small>
+                                </td>
+                                <td>
+                                    <strong>@item.Salary.ToString("C", new System.Globalization.CultureInfo("si-LK"))</strong></td>
+                                <td>
+                                    <span class="badge @(item.Status == "Active" ? "bg-success" : item.Status == "On Leave" ? "bg-warning" : "bg-danger")">
+                                        @item.Status
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    <a asp-action="Edit" asp-route-id="item.Id" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                                    <a asp-action="Details" asp-route-id="item.Id" class="btn btn-sm btn-outline-info"><i class="bi bi-eye"></i></a>
+                                    <a asp-action="Delete" asp-route-id="item.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="management-footer">
+                <span>Showing @Model.Count() personnel entries</span>
+            </div>
+        </section>
+    </main>
+</div>
