@@ -1,0 +1,188 @@
+﻿@model IEnumerable<GrandHotel.Models.Billing>
+
+@{
+    Layout = null; // ඔයා කලින් තනිවම ඩිසයින් කරපු නිසා Layout එක null කරන්න
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Billing & Payments - GrandHotel</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />     
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .sidebar {
+            background-color: #031424;
+            color: white;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+
+            .sidebar .logo-container {
+                text-align: center;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #08253f;
+                margin-bottom: 20px;
+            }
+
+                .sidebar .logo-container h3 {
+                    color: #d4af37;
+                    font-weight: bold;
+                    font-size: 20px;
+                    margin-top: 10px;
+                }
+
+            .sidebar a {
+                color: #a4bcd4;
+                display: block;
+                padding: 12px 20px;
+                text-decoration: none;
+                font-weight: 500;
+                transition: all 0.3s;
+            }
+
+                .sidebar a:hover, .sidebar a.active {
+                    background-color: #08253f;
+                    color: #d4af37;
+                    border-left: 4px solid #d4af37;
+                }
+
+            .sidebar i {
+                margin-right: 10px;
+                width: 20px;
+            }
+
+        .top-navbar {
+            background-color: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .table th {
+            background-color: #495057;
+            color: white;
+        }
+
+        .badge-success-custom {
+            background-color: #198754;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar Navigation -->
+            <div class="col-md-2 sidebar px-0">
+                <div class="logo-container">
+                    <h3 class="m-0"><i class="fa-solid fa-hotel text-warning"></i> GRAND HOTEL</h3>
+                </div>
+                <div>
+                    <a asp-controller="Dashboard" asp-action="Index"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                    <a asp-controller="Billing" asp-action="Index"><i class="fa-solid fa-file-invoice-dollar"></i> Billing</a>
+                    <a asp-controller="Billing" asp-action="Payments" class="active"><i class="fa-solid fa-credit-card"></i> Billing & Payments</a>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="col-md-10 px-4">
+                <!-- Top Navbar -->
+                <div class="top-navbar d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="m-0 font-weight-bold text-secondary">Control Panel</h4>
+                    <div>
+                        <span class="badge bg-primary p-2 me-2"><i class="fa-solid fa-user"></i> Role: Guest</span>
+                        <a asp-controller="Account" asp-action="Logout" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    </div>
+                </div>
+
+                <!-- Page Header -->
+                <div class="d-flex align-items-center mb-3">
+                    <h2 class="text-secondary font-weight-bold m-0"><i class="fa-solid fa-credit-card text-warning"></i> Billing & Payments History</h2>
+                    <button class="btn btn-sm btn-outline-warning ms-auto"><i class="fa-solid fa-rotate"></i> Refresh History</button>
+                </div>
+                <p class="text-muted">View all completed transactions and payment methods</p>
+
+                <!-- Payments Table -->
+                <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
+                    <div class="card-header bg-secondary text-white py-3">
+                        <h5 class="m-0"><i class="fa-solid fa-list-check"></i> Completed Transactions</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped m-0 align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Bill ID</th>
+                                        <th>Guest Name</th>
+                                        <th>Room No</th>
+                                        <th>Payment Date</th>
+                                        <th>Method</th>
+                                        <th>Paid Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- ඩේටාබේස් එකේ ගෙවපු බිල් තියෙනවා නම් පෙන්වන්න ලූප් එක -->
+                                    @if (Model != null && Model.Any())
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td><strong>#@item.BillId</strong></td>
+                                                <td>@item.GuestName</td>
+                                                <td><span class="badge bg-info text-dark">@item.RoomNumber</span></td>
+                                                <td>@item.PaymentDate.ToString("yyyy-MM-dd")</td>
+                                                <td><span class="badge bg-light text-dark border">@item.PaymentMethod</span></td>
+                                                <td class="text-success font-weight-bold">@item.TotalAmount.ToString("N2") LKR</td>
+                                                <td><span class="badge badge-success-custom">@item.PaymentStatus</span></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <!-- පරණ ඩමි දත්ත ටික (ඉතිහාසය විදියට පෙන්වන්න) -->
+                                        <tr>
+                                            <td><strong>#1012</strong></td>
+                                            <td>Nimal Perera</td>
+                                            <td><span class="badge bg-info text-dark">101</span></td>
+                                            <td>2026-07-08</td>
+                                            <td><span class="badge bg-light text-dark border">Cash</span></td>
+                                            <td class="text-success font-weight-bold">15,000.00 LKR</td>
+                                            <td><span class="badge badge-success-custom">Paid & Settled</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#1011</strong></td>
+                                            <td>Kamal Silva</td>
+                                            <td><span class="badge bg-info text-dark">204</span></td>
+                                            <td>2026-07-05</td>
+                                            <td><span class="badge bg-light text-dark border">Card</span></td>
+                                            <td class="text-success font-weight-bold">28,500.00 LKR</td>
+                                            <td><span class="badge badge-success-custom">Paid & Settled</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

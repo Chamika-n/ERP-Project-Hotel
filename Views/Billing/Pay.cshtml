@@ -1,0 +1,42 @@
+﻿@model GrandHotel.Models.Billing
+
+@{
+    ViewData["Title"] = "Process Payment";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <div class="card shadow">
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0"><i class="fas fa-credit-card"></i> Finalize Payment</h4>      
+        </div>
+        <div class="card-body">
+            <h5 class="text-secondary">Billing Summary</h5>
+            <hr />
+            <div class="mb-3">
+                <p class="mb-1"><strong>Guest Name:</strong> @Model.GuestName</p>
+                <p class="mb-1"><strong>Room Number:</strong> @Model.RoomNumber</p>
+            </div>
+
+            <div class="alert alert-danger text-center">
+                <h3 class="mb-0">Total Payable: LKR @Model.TotalAmount.ToString("N2")</h3>
+            </div>
+
+            <form asp-action="ProcessPayment" method="post" class="mt-4">
+                <input type="hidden" name="billId" value="@Model.BillId" />
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Select Payment Method:</label>
+                    <select name="paymentMethod" class="form-select form-select-lg" required>
+                        <option value="Cash">Cash (මුදල්)</option>
+                        <option value="Card">Credit/Debit Card (කාඩ්පත්)</option>
+                    </select>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success btn-lg">Confirm & Print Receipt</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
