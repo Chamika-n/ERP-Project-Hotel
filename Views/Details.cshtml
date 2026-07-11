@@ -1,0 +1,35 @@
+﻿@model GrandHotel.Models.Reservation
+
+@{
+    ViewData["Title"] = "Reservation Details";
+}
+
+<div class="container pt-4">
+    <div class="card shadow-sm col-md-6 mx-auto">
+        <div class="card-body">
+            <h2 class="card-title mb-4 text-center">Reservation Details</h2>
+            <hr />
+            <dl class="row fs-5">
+                <dt class="col-sm-5 fw-bold text-muted">Customer Name:</dt>
+                <dd class="col-sm-7">@Html.DisplayFor(model => model.CustomerName)</dd>
+
+                <dt class="col-sm-5 fw-bold text-muted">Room Number:</dt>
+                <dd class="col-sm-7">@Html.DisplayFor(model => model.RoomNumber)</dd>
+
+                <dt class="col-sm-5 fw-bold text-muted">Check-In Date:</dt>
+                <dd class="col-sm-7">@Model.CheckInDate.ToShortDateString()</dd>
+
+                <dt class="col-sm-5 fw-bold text-muted">Check-Out Date:</dt>
+                <dd class="col-sm-7">@Model.CheckOutDate.ToShortDateString()</dd>
+
+                <dt class="col-sm-5 fw-bold text-muted">Total Price:</dt>
+                <dd class="col-sm-7">LKR @Html.DisplayFor(model => model.TotalPrice)</dd>
+            </dl>
+            <hr />
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning fw-bold px-4">Edit</a>
+                <a asp-action="Index" class="btn btn-secondary px-4">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
