@@ -1,15 +1,16 @@
-using GrandHotel.Data;
+﻿using GrandHotel.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddSession(options => {
-    options.IdleTimeout = TimeSpan.FromMinutes(20);
-});
+// Add services to the container.
+builder.Services.AddControllersWithViews();    
 
-builder.Services.AddDbContext<HotelDbContext>(options =>
+builder.Services.AddHttpContextAccessor();    
+builder.Services.AddSession();
+
+// මල්ලි, මෙන්න මෙතන අපි ඩේටාබේස් එක සම්බන්ධ කරා ප්‍රොජෙක්ට් එකට!
+builder.Services.AddDbContext<GrandHotelContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
@@ -18,22 +19,21 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapStaticAssets();
 
 app.UseSession();
 
+app.UseAuthorization();
+
+// මෙන්න මෙතන අපි Default Controller එක Billing විදිහට සෙට් කරා
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Billing}/{action=Index}/{id?}");
 
 app.Run();

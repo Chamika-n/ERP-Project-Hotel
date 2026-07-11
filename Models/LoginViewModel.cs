@@ -4,7 +4,7 @@ namespace GrandHotel.Models
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Email Address is required")]
+        [Required(ErrorMessage = "Email Address is required")]     
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 

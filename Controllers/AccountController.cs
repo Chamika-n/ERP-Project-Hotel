@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 namespace GrandHotel.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : Controller   
     {
         // 1. GET: Login
         [HttpGet]
@@ -11,10 +11,16 @@ namespace GrandHotel.Controllers
         {
             return View();
         }
+        // GET: Account/Logout
+        public IActionResult Logout()
+        {
+            // මෙතනින් කරන්නේ Logout වුණාම ඔයාව ආයෙත් Login පේජ් එකට හරවා යවන එකයි
+            return RedirectToAction("Login", "Account");
+        }
 
         // 2. POST: Login
         [HttpPost]
-        public IActionResult Login(LoginViewModel model)
+        public IActionResult Login(LoginViewModel model) 
         {
             if (ModelState.IsValid)
             {

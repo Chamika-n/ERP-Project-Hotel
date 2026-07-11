@@ -1,0 +1,40 @@
+﻿@model GrandHotel.Models.Billing
+
+@{
+    ViewData["Title"] = "Edit Bill";
+}
+
+<div class="container mt-4">
+    <h2>Edit Bill</h2>
+    <form asp-action="Edit" method="post">       
+        <input type="hidden" asp-for="BillId" />
+
+        <div class="form-group">
+            <label>Guest Name</label>
+            <input asp-for="GuestName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Room Number</label>
+            <input asp-for="RoomNumber" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Total Amount</label>
+            <input asp-for="TotalAmount" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Payment Method</label>
+            <div class="form-group">
+                
+                <select asp-for="PaymentMethod" class="form-control">
+                    <option value="None">None</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="Online Banking">Online Banking</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+        <a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>
+    </form>
+</div>
