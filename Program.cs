@@ -1,4 +1,4 @@
-﻿using GrandHotel.Models;
+using GrandHotel.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();    
 builder.Services.AddSession();
 
-// මල්ලි, මෙන්න මෙතන අපි ඩේටාබේස් එක සම්බන්ධ කරා ප්‍රොජෙක්ට් එකට!
+// Configure the database context with the connection string from configuration
 builder.Services.AddDbContext<GrandHotelContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -31,7 +31,7 @@ app.UseSession();
 
 app.UseAuthorization();
 
-// මෙන්න මෙතන අපි Default Controller එක Billing විදිහට සෙට් කරා
+// Set default route to Billing controller
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Billing}/{action=Index}/{id?}");
